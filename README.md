@@ -12,7 +12,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 - Online product: <https://graphxr.kineviz.com>
 - Desktop downloads: <https://github.com/Kineviz/kineviz-desktop/releases>
 
-> Latest version: **v0.1.0**
+> Latest version: **v0.1.2**
 
 ---
 
@@ -30,7 +30,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 
 ## 3. Download the Installer
 
-Open the releases page, go to the latest version **v0.1.0**, and download the file that matches your operating system:
+Open the releases page, go to the latest version **v0.1.2**, and download the file that matches your operating system:
 
 Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
@@ -38,17 +38,17 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 | File | Notes |
 | --- | --- |
-| `Kineviz.Desktop.Setup.0.1.0.exe` | **Recommended** — standard installer, just double-click to install |
-| `Kineviz.Desktop-0.1.0-win.zip` | Portable archive — unzip and run directly |
+| `Kineviz.Desktop.Setup.0.1.2.exe` | **Recommended** — standard installer, just double-click to install |
+| `Kineviz.Desktop-0.1.2-win.zip` | Portable archive — unzip and run directly |
 
 ### macOS
 
 | File | Chip | Notes |
 | --- | --- | --- |
-| `Kineviz.Desktop-0.1.0.dmg` | Intel | **Recommended** — disk image installer |
-| `Kineviz.Desktop-0.1.0-arm64.dmg` | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
-| `Kineviz.Desktop-0.1.0-mac.zip` | Intel | Archive form |
-| `Kineviz.Desktop-0.1.0-arm64-mac.zip` | Apple Silicon | Archive form |
+| `Kineviz.Desktop-0.1.2.dmg` | Intel | **Recommended** — disk image installer |
+| `Kineviz.Desktop-0.1.2-arm64.dmg` | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
+| `Kineviz.Desktop-0.1.2-mac.zip` | Intel | Archive form |
+| `Kineviz.Desktop-0.1.2-arm64-mac.zip` | Apple Silicon | Archive form |
 
 > How to check your Mac's chip: click the  menu in the top-left corner → "About This Mac", and look at the "Chip / Processor" information. Choose the `arm64` build for Apple M-series chips, or the build without `arm64` for Intel processors.
 
@@ -60,7 +60,7 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 ### Windows
 
-1. Double-click the downloaded `Kineviz.Desktop.Setup.0.1.0.exe`.
+1. Double-click the downloaded `Kineviz.Desktop.Setup.0.1.2.exe`.
 2. Follow the prompts to complete the installation (you can choose the install location and whether to create a desktop shortcut).
 3. Once installed, launch **Kineviz Desktop** from the Start menu or the desktop icon.
 
