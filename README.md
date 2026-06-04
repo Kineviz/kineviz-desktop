@@ -38,17 +38,17 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 | File | Notes |
 | --- | --- |
-| `Kineviz.Desktop.Setup.0.1.2.exe` | **Recommended** — standard installer, just double-click to install |
-| `Kineviz.Desktop-0.1.2-win.zip` | Portable archive — unzip and run directly |
+| [`Kineviz.Desktop.Setup.0.1.2.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop.Setup.0.1.2.exe) | **Recommended** — standard installer, just double-click to install |
+| [`Kineviz.Desktop-0.1.2-win.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop-0.1.2-win.zip) | Portable archive — unzip and run directly |
 
 ### macOS
 
 | File | Chip | Notes |
 | --- | --- | --- |
-| `Kineviz.Desktop-0.1.2.dmg` | Intel | **Recommended** — disk image installer |
-| `Kineviz.Desktop-0.1.2-arm64.dmg` | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
-| `Kineviz.Desktop-0.1.2-mac.zip` | Intel | Archive form |
-| `Kineviz.Desktop-0.1.2-arm64-mac.zip` | Apple Silicon | Archive form |
+| [`Kineviz.Desktop-0.1.2.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop-0.1.2.dmg) | Intel | **Recommended** — disk image installer |
+| [`Kineviz.Desktop-0.1.2-arm64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop-0.1.2-arm64.dmg) | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
+| [`Kineviz.Desktop-0.1.2-mac.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop-0.1.2-mac.zip) | Intel | Archive form |
+| [`Kineviz.Desktop-0.1.2-arm64-mac.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.2/Kineviz.Desktop-0.1.2-arm64-mac.zip) | Apple Silicon | Archive form |
 
 > How to check your Mac's chip: click the  menu in the top-left corner → "About This Mac", and look at the "Chip / Processor" information. Choose the `arm64` build for Apple M-series chips, or the build without `arm64` for Intel processors.
 
