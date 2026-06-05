@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Kineviz Desktop</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #1a1d24;
+      --border: #2a2e38;
+      --text: #e6e8ec;
+      --muted: #9aa0ac;
+      --accent: #4f8cff;
+      --accent-hover: #3a78f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    .header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    h1 { margin: 0 0 4px; font-size: 22px; }
+    .tagline { color: var(--muted); font-size: 14px; }
+    .version {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .version strong { color: var(--text); }
+    .detected {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 24px 0 12px;
+      min-height: 20px;
+    }
+    .detected strong { color: var(--text); }
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .filename {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      word-break: break-all;
+    }
+    details { margin-top: 24px; }
+    summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 14px;
+      list-style: none;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "▸ "; }
+    details[open] summary::before { content: "▾ "; }
+    .group-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin: 16px 0 6px;
+    }
+    .all-links a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+    }
+    .all-links a:hover { background: var(--bg); border-color: var(--border); }
+    .all-links a span { color: var(--muted); font-size: 12px; }
+    .req {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .links {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      font-size: 13px;
+    }
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div>
+        <h1>Kineviz Desktop</h1>
+        <div class="tagline">GraphXR desktop edition</div>
+      </div>
+      <div class="version" id="version">Latest version: …</div>
+    </div>
+
+    <div class="detected" id="detected">Detecting your system…</div>
+    <a class="btn" id="primary-btn" href="#" rel="noopener">Download</a>
+    <div class="filename" id="primary-file"></div>
+
+    <details id="more">
+      <summary>Wrong version? Choose another</summary>
+      <div class="all-links" id="all-links"></div>
+    </details>
+
+    <div class="req">
+      <strong>System requirements:</strong>
+      Windows 10 / 11 (x64 or ARM64), or macOS 11+ (Intel or Apple Silicon).
+      8 GB RAM recommended.
+    </div>
+
+    <div class="links">
+      <a href="https://www.kineviz.com" target="_blank" rel="noopener">Official website</a>
+      <a href="https://graphxr.kineviz.com" target="_blank" rel="noopener">Open GraphXR online</a>
+      <a id="repo-link" href="#" target="_blank" rel="noopener">GitHub</a>
+      <a id="releases-link" href="#" target="_blank" rel="noopener">All releases</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // ---- Configuration ----
+      var REPO = "Kineviz/kineviz-desktop";
+      var REPO_URL = "https://github.com/" + REPO;
+      var RELEASES = REPO_URL + "/releases";
+
+      // Version is read at runtime from the `latest-version` file.
+      // FALLBACK_VERSION is only used if every source fails (e.g. opened via file://).
+      var FALLBACK_VERSION = "0.1.4";
+      var VERSION_SOURCES = [
+        // Same-origin (works when this page is served from the repo, e.g. GitHub Pages).
+        "latest-version",
+        // Cross-origin fallback straight from the repo's main branch.
+        "https://raw.githubusercontent.com/" + REPO + "/main/latest-version"
+      ];
+
+      // ---- Version resolution ----
+      function isValidVersion(v) {
+        return /^[0-9]+\.[0-9]+\.[0-9]+$/.test(v);
+      }
+
+      // Try each source in order; resolve with the first valid version string.
+      function fetchFirst(urls) {
+        if (!urls.length) return Promise.reject(new Error("no version source"));
+        return fetch(urls[0], { cache: "no-store" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.text();
+          })
+          .then(function (text) {
+            var v = (text || "").trim().replace(/^v/, "");
+            if (!isValidVersion(v)) throw new Error("invalid version: " + v);
+            return v;
+          })
+          .catch(function () {
+            return fetchFirst(urls.slice(1));
+          });
+      }
+
+      function resolveVersion() {
+        return fetchFirst(VERSION_SOURCES).catch(function () {
+          return FALLBACK_VERSION;
+        });
+      }
+
+      // ---- Build map for a given version ----
+      function makeBuilds(version) {
+        var base = RELEASES + "/download/v" + version + "/";
+        function f(name) { return { file: name, url: base + name }; }
+        return {
+          windows: {
+            x64:   Object.assign(f("Kineviz-Desktop-Setup-" + version + "-win-x64.exe"),   { label: "Windows (Intel / AMD x64)" }),
+            arm64: Object.assign(f("Kineviz-Desktop-Setup-" + version + "-win-arm64.exe"), { label: "Windows (ARM64)" })
+          },
+          mac: {
+            x64:   Object.assign(f("Kineviz-Desktop-" + version + "-mac-x64.dmg"),   { label: "macOS (Intel)" }),
+            arm64: Object.assign(f("Kineviz-Desktop-" + version + "-mac-arm64.dmg"), { label: "macOS (Apple Silicon)" })
+          }
+        };
+      }
+
+      // ---- OS detection ----
+      function detectOS() {
+        var ua = navigator.userAgent || "";
+        var plat = (navigator.platform || "").toLowerCase();
+        if (/win/i.test(ua) || plat.indexOf("win") === 0) return "windows";
+        // iPadOS reports as Mac; we still treat it as mac for download purposes.
+        if (/mac/i.test(ua) || plat.indexOf("mac") === 0) return "mac";
+        return null;
+      }
+
+      // ---- Architecture heuristics ----
+      // Detect Apple Silicon via WebGL renderer (Safari has no userAgentData).
+      function isAppleSilicon() {
+        try {
+          var canvas = document.createElement("canvas");
+          var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          if (!gl) return false;
+          var ext = gl.getExtension("WEBGL_debug_renderer_info");
+          var renderer = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : "";
+          renderer = (renderer || "").toString();
+          // Intel Macs report "Intel..."/"AMD...", Apple Silicon reports "Apple GPU"/"Apple M...".
+          return /apple/i.test(renderer);
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function fallbackArch(os) {
+        if (os === "mac") return isAppleSilicon() ? "arm64" : "x64";
+        // Windows without userAgentData: x64 covers the vast majority of PCs.
+        return "x64";
+      }
+
+      // Resolve { os, arch } using the most reliable signal available.
+      function detect() {
+        var os = detectOS();
+
+        // Chromium-based: ask for the real architecture (best for Windows on ARM).
+        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+          return navigator.userAgentData
+            .getHighEntropyValues(["architecture"])
+            .then(function (hev) {
+              var arch = /arm/i.test(hev.architecture || "") ? "arm64" : "x64";
+              return { os: os, arch: arch };
+            })
+            .catch(function () {
+              return { os: os, arch: fallbackArch(os) };
+            });
+        }
+
+        return Promise.resolve({ os: os, arch: fallbackArch(os) });
+      }
+
+      // ---- Render helpers ----
+      function osLabel(os) {
+        return os === "windows" ? "Windows" : os === "mac" ? "macOS" : "your system";
+      }
+      function archLabel(arch) {
+        return arch === "arm64" ? "ARM64 / Apple Silicon" : "x64 (Intel / AMD)";
+      }
+
+      function renderAllLinks(builds) {
+        var container = document.getElementById("all-links");
+        var html = "";
+        var groups = [
+          { os: "windows", title: "Windows" },
+          { os: "mac", title: "macOS" }
+        ];
+        groups.forEach(function (g) {
+          html += '<div class="group-title">' + g.title + "</div>";
+          Object.keys(builds[g.os]).forEach(function (arch) {
+            var b = builds[g.os][arch];
+            html += '<a href="' + b.url + '" download>' + b.label +
+              "<br><span>" + b.file + "</span></a>";
+          });
+        });
+        container.innerHTML = html;
+      }
+
+      // ---- Init ----
+      function init() {
+        document.getElementById("repo-link").href = REPO_URL;
+        document.getElementById("releases-link").href = RELEASES;
+
+        resolveVersion().then(function (version) {
+          var builds = makeBuilds(version);
+          document.getElementById("version").innerHTML =
+            "Latest version: <strong>v" + version + "</strong>";
+          renderAllLinks(builds);
+
+          detect().then(function (res) {
+            var detectedEl = document.getElementById("detected");
+            var btn = document.getElementById("primary-btn");
+            var fileEl = document.getElementById("primary-file");
+
+            var build = res.os && builds[res.os] && builds[res.os][res.arch];
+
+            if (!build) {
+              // Unknown OS: hide the guess, point to the releases page.
+              detectedEl.textContent = "We couldn't detect your system automatically.";
+              btn.textContent = "Open releases page";
+              btn.href = RELEASES;
+              btn.target = "_blank";
+              fileEl.textContent = "";
+              document.getElementById("more").open = true;
+              return;
+            }
+
+            detectedEl.innerHTML =
+              "Detected: <strong>" + osLabel(res.os) + " · " + archLabel(res.arch) + "</strong>";
+            btn.textContent = "Download for " + osLabel(res.os);
+            btn.href = build.url;
+            btn.setAttribute("download", ""); // hint download rather than navigate
+            fileEl.textContent = build.file;
+          });
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
