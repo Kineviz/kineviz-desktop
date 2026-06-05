@@ -1,0 +1,228 @@
+<!-- ================================================================
+     Kineviz Desktop — smart download button injected into the HEADER
+     ----------------------------------------------------------------
+     Squarespace 7.1 headers can't hold a Code Block, so this snippet
+     injects the control into the header via JavaScript.
+
+     HOW TO USE:
+       Settings > Advanced > Code Injection > FOOTER
+       Paste this WHOLE block, then Save. (Footer injection runs on
+       every page, so the button shows up in the header site-wide.)
+     ================================================================ -->
+
+<style>
+  /* Match kineviz.com: Open Sans (already loaded site-wide) + brand colors (#4a36ec / #3a2dbe). */
+  /* Spacing from the social icons on its left (mirrors native header-actions gap). */
+  .header-actions .kvz-action { display: inline-flex; align-items: center; margin-left: 22px; }
+  .kvz-dl { position: relative; display: inline-flex; vertical-align: middle;
+            font-family: 'Open Sans', sans-serif; }
+  .kvz-dl button { border: none; cursor: pointer; font-family: 'Open Sans', sans-serif;
+                   font-size: 15px; font-weight: 600; color: #fff; background: #4a36ec;
+                   line-height: 1; }
+  .kvz-dl button:hover { background: #3a2dbe; }
+  /* Taller to match the header CTA height (~44px). */
+  .kvz-dl .kvz-main { padding: 15px 22px; border-radius: 8px 0 0 8px;
+                      display: inline-flex; align-items: center; gap: 8px; }
+  .kvz-dl .kvz-main svg { display: block; }
+  .kvz-dl .kvz-caret { padding: 15px 13px; border-radius: 0 8px 8px 0;
+                       border-left: 1px solid rgba(255,255,255,.25); }
+
+  .kvz-menu { position: absolute; top: calc(100% + 6px); right: 0; min-width: 280px;
+              font-family: 'Open Sans', sans-serif;
+              background: #1c1d20; color: #fff; border: 1px solid #34353a;
+              border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.4);
+              padding: 6px; z-index: 9999; text-align: left; }
+  .kvz-menu[hidden] { display: none; }
+  .kvz-group { font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+               color: #9aa0ac; padding: 8px 10px 4px; }
+  /* color uses !important to beat the site's global `a{color:#4a36ec!important}` rule. */
+  .kvz-menu a { display: block; text-decoration: none !important; color: #fff !important;
+                font-size: 14px; padding: 8px 10px; border-radius: 8px; }
+  .kvz-menu a:hover { background: #4a36ec; }
+  .kvz-menu a:hover small { color: #d7d2fb !important; }
+  .kvz-menu a small { display: block; color: #9aa0ac !important; font-size: 12px; word-break: break-all; }
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  var REPO = "Kineviz/kineviz-desktop";
+  var RELEASES = "https://github.com/" + REPO + "/releases";
+  var FALLBACK_VERSION = "0.1.4";
+  var VERSION_URL = "https://raw.githubusercontent.com/" + REPO + "/main/latest-version";
+
+  var state = { version: FALLBACK_VERSION, os: null, arch: "x64" };
+  var controls = []; // every injected control, so we can refresh all menus after fetch
+
+  function isValidVersion(v) { return /^[0-9]+\.[0-9]+\.[0-9]+$/.test(v); }
+
+  function makeBuilds(v) {
+    var base = RELEASES + "/download/v" + v + "/";
+    function win(a) { return "Kineviz-Desktop-Setup-" + v + "-win-" + a + ".exe"; }
+    function mac(a) { return "Kineviz-Desktop-" + v + "-mac-" + a + ".dmg"; }
+    var list = [
+      { os: "windows", arch: "x64",   label: "Windows (Intel / AMD x64)", file: win("x64") },
+      { os: "windows", arch: "arm64", label: "Windows (ARM64)",           file: win("arm64") },
+      { os: "mac",     arch: "x64",   label: "macOS (Intel)",             file: mac("x64") },
+      { os: "mac",     arch: "arm64", label: "macOS (Apple Silicon)",     file: mac("arm64") }
+    ];
+    list.forEach(function (b) { b.url = base + b.file; });
+    return list;
+  }
+
+  function urlFor(os, arch) {
+    var m = makeBuilds(state.version).filter(function (b) {
+      return b.os === os && b.arch === arch;
+    })[0];
+    return m ? m.url : null;
+  }
+
+  // ---- OS / arch detection ----
+  function detectOS() {
+    var ua = navigator.userAgent || "";
+    var plat = (navigator.platform || "").toLowerCase();
+    if (/win/i.test(ua) || plat.indexOf("win") === 0) return "windows";
+    if (/mac/i.test(ua) || plat.indexOf("mac") === 0) return "mac";
+    return null;
+  }
+  function isAppleSilicon() {
+    try {
+      var c = document.createElement("canvas");
+      var gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+      if (!gl) return false;
+      var ext = gl.getExtension("WEBGL_debug_renderer_info");
+      var r = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : "";
+      return /apple/i.test((r || "").toString());
+    } catch (e) { return false; }
+  }
+  function resolveArch(os) {
+    return new Promise(function (resolve) {
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        navigator.userAgentData.getHighEntropyValues(["architecture"])
+          .then(function (h) { resolve(/arm/i.test(h.architecture || "") ? "arm64" : "x64"); })
+          .catch(function () { resolve(os === "mac" && isAppleSilicon() ? "arm64" : "x64"); });
+      } else {
+        resolve(os === "mac" && isAppleSilicon() ? "arm64" : "x64");
+      }
+    });
+  }
+  function fetchVersion() {
+    return fetch(VERSION_URL, { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function (t) {
+        var v = (t || "").trim().replace(/^v/, "");
+        return isValidVersion(v) ? v : FALLBACK_VERSION;
+      })
+      .catch(function () { return FALLBACK_VERSION; });
+  }
+
+  // ---- Menu markup ----
+  function menuHtml() {
+    var builds = makeBuilds(state.version);
+    var groups = [{ os: "windows", title: "Windows" }, { os: "mac", title: "macOS" }];
+    var html = "";
+    groups.forEach(function (g) {
+      html += '<div class="kvz-group">' + g.title + "</div>";
+      builds.filter(function (b) { return b.os === g.os; }).forEach(function (b) {
+        html += '<a href="' + b.url + '" role="menuitem">' + b.label +
+                "<small>" + b.file + "</small></a>";
+      });
+    });
+    html += '<div class="kvz-group">More</div>' +
+            '<a href="' + RELEASES + '" target="_blank" rel="noopener" role="menuitem">' +
+            'All releases &amp; checksums</a>';
+    return html;
+  }
+  function refreshMenus() {
+    controls.forEach(function (c) { c.menu.innerHTML = menuHtml(); });
+  }
+
+  var DL_ICON =
+    '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
+    ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
+
+  // ---- Build one control instance ----
+  function buildControl() {
+    var wrap = document.createElement("div");
+    wrap.className = "kvz-dl";
+    wrap.innerHTML =
+      '<button type="button" class="kvz-main" aria-label="Download Kineviz Desktop">' +
+        DL_ICON + '<span>Download</span></button>' +
+      '<button type="button" class="kvz-caret" aria-haspopup="true" aria-expanded="false"' +
+        ' aria-label="Other platforms">▾</button>' +
+      '<div class="kvz-menu" role="menu" hidden></div>';
+
+    var main = wrap.querySelector(".kvz-main");
+    var caret = wrap.querySelector(".kvz-caret");
+    var menu = wrap.querySelector(".kvz-menu");
+    menu.innerHTML = menuHtml();
+
+    main.addEventListener("click", function () {
+      window.location.href = (state.os && urlFor(state.os, state.arch)) || RELEASES;
+    });
+    function setOpen(open) {
+      menu.hidden = !open;
+      caret.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    caret.addEventListener("click", function (e) { e.stopPropagation(); setOpen(menu.hidden); });
+    document.addEventListener("click", function (e) {
+      if (!menu.hidden && !menu.contains(e.target) && e.target !== caret) setOpen(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+
+    controls.push({ wrap: wrap, menu: menu });
+    return wrap;
+  }
+
+  // Wrap the control in a native-style action item so it inherits header spacing.
+  function asAction(control) {
+    var w = document.createElement("div");
+    w.className = "header-actions-action kvz-action";
+    w.appendChild(control);
+    return w;
+  }
+
+  // ---- Find header containers and inject ----
+  // Desktop: header actions area; Mobile: the slide-out menu's action area.
+  function injectAll() {
+    var desktop = document.querySelector(
+      ".header-actions--right, .header-actions, .header-display-desktop .header-inner"
+    );
+    if (desktop && !desktop.querySelector(".kvz-dl")) {
+      desktop.appendChild(asAction(buildControl()));
+    }
+    var mobile = document.querySelector(
+      ".header-menu-actions, .header-menu-nav"
+    );
+    if (mobile && !mobile.querySelector(".kvz-dl")) {
+      mobile.appendChild(buildControl());
+    }
+  }
+
+  function init() {
+    state.os = detectOS();
+    injectAll();
+
+    Promise.all([fetchVersion(), resolveArch(state.os)]).then(function (res) {
+      state.version = res[0];
+      state.arch = res[1];
+      refreshMenus();
+    });
+
+    // The header can render slightly late or get rebuilt; retry a few times.
+    var tries = 0;
+    var timer = setInterval(function () {
+      injectAll();
+      if (++tries >= 10) clearInterval(timer);
+    }, 400);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
