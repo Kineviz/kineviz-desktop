@@ -12,7 +12,7 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 - 产品在线版：<https://graphxr.kineviz.com>
 - 桌面版下载地址：<https://github.com/Kineviz/kineviz-desktop/releases>
 
-> 当前最新版本：**v0.1.4**
+> 当前最新版本：**v0.1.7**
 
 ---
 
@@ -30,7 +30,7 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 
 ## 三、下载安装包
 
-打开发布页面，进入最新版本 **v0.1.4**，根据你的操作系统选择对应文件下载：
+打开发布页面，进入最新版本 **v0.1.7**，根据你的操作系统选择对应文件下载：
 
 发布地址：<https://github.com/Kineviz/kineviz-desktop/releases>
 
@@ -38,10 +38,10 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 
 | 文件名 | 适用芯片 | 说明 |
 | --- | --- | --- |
-| [`Kineviz-Desktop-Setup-0.1.4-win-x64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-Setup-0.1.4-win-x64.exe) | Intel / AMD（x64） | **推荐**，标准安装程序，双击即可安装 |
-| [`Kineviz-Desktop-Setup-0.1.4-win-arm64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-Setup-0.1.4-win-arm64.exe) | ARM64 | **推荐**，适用于 ARM 架构 PC 的标准安装程序 |
-| [`Kineviz-Desktop-0.1.4-win-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-win-x64.zip) | Intel / AMD（x64） | 免安装压缩包，解压后直接运行 |
-| [`Kineviz-Desktop-0.1.4-win-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-win-arm64.zip) | ARM64 | 免安装压缩包，解压后直接运行 |
+| [`Kineviz-Desktop-Setup-0.1.7-win-x64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-Setup-0.1.7-win-x64.exe) | Intel / AMD（x64） | **推荐**，标准安装程序，双击即可安装 |
+| [`Kineviz-Desktop-Setup-0.1.7-win-arm64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-Setup-0.1.7-win-arm64.exe) | ARM64 | **推荐**，适用于 ARM 架构 PC 的标准安装程序 |
+| [`Kineviz-Desktop-0.1.7-win-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-win-x64.zip) | Intel / AMD（x64） | 免安装压缩包，解压后直接运行 |
+| [`Kineviz-Desktop-0.1.7-win-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-win-arm64.zip) | ARM64 | 免安装压缩包，解压后直接运行 |
 
 > 大多数 Windows 电脑使用 `x64` 版本。仅当设备为 ARM 处理器（如骁龙平台 PC）时才选择 `arm64` 版本。
 
@@ -49,10 +49,10 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 
 | 文件名 | 适用芯片 | 说明 |
 | --- | --- | --- |
-| [`Kineviz-Desktop-0.1.4-mac-x64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-mac-x64.dmg) | Intel | **推荐**，磁盘镜像安装包 |
-| [`Kineviz-Desktop-0.1.4-mac-arm64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-mac-arm64.dmg) | Apple Silicon（M1/M2/M3 等） | **推荐**，磁盘镜像安装包 |
-| [`Kineviz-Desktop-0.1.4-mac-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-mac-x64.zip) | Intel | 压缩包形式 |
-| [`Kineviz-Desktop-0.1.4-mac-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.4/Kineviz-Desktop-0.1.4-mac-arm64.zip) | Apple Silicon | 压缩包形式 |
+| [`Kineviz-Desktop-0.1.7-mac-x64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-x64.dmg) | Intel | **推荐**，磁盘镜像安装包 |
+| [`Kineviz-Desktop-0.1.7-mac-arm64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-arm64.dmg) | Apple Silicon（M1/M2/M3 等） | **推荐**，磁盘镜像安装包 |
+| [`Kineviz-Desktop-0.1.7-mac-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-x64.zip) | Intel | 压缩包形式 |
+| [`Kineviz-Desktop-0.1.7-mac-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-arm64.zip) | Apple Silicon | 压缩包形式 |
 
 > 如何查看 Mac 芯片类型：点击屏幕左上角  图标 →「关于本机」，查看「芯片 / 处理器」信息。Apple M 系列选择 `arm64` 版本，Intel 处理器选择 `x64` 版本。
 
@@ -64,7 +64,7 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 
 ### Windows
 
-1. 双击下载好的 `Kineviz-Desktop-Setup-0.1.4-win-x64.exe`（ARM 架构 PC 请使用 `-win-arm64.exe` 版本）。
+1. 双击下载好的 `Kineviz-Desktop-Setup-0.1.7-win-x64.exe`（ARM 架构 PC 请使用 `-win-arm64.exe` 版本）。
 2. 按提示完成安装（可选择安装目录、是否创建桌面快捷方式）。
 3. 安装完成后，从「开始菜单」或桌面图标启动 **Kineviz Desktop**。
 
