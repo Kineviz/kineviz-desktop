@@ -12,7 +12,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 - Online product: <https://graphxr.kineviz.com>
 - Desktop downloads: <https://github.com/Kineviz/kineviz-desktop/releases>
 
-> Latest version: **v0.1.7**
+> Latest version: **v0.1.8**
 
 ---
 
@@ -30,7 +30,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 
 ## 3. Download the Installer
 
-Open the releases page, go to the latest version **v0.1.7**, and download the file that matches your operating system:
+Open the releases page, go to the latest version **v0.1.8**, and download the file that matches your operating system:
 
 Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
@@ -38,10 +38,10 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 | File | Chip | Notes |
 | --- | --- | --- |
-| [`Kineviz-Desktop-Setup-0.1.7-win-x64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-Setup-0.1.7-win-x64.exe) | Intel / AMD (x64) | **Recommended** — standard installer, just double-click to install |
-| [`Kineviz-Desktop-Setup-0.1.7-win-arm64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-Setup-0.1.7-win-arm64.exe) | ARM64 | **Recommended** — standard installer for ARM-based PCs |
-| [`Kineviz-Desktop-0.1.7-win-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-win-x64.zip) | Intel / AMD (x64) | Portable archive — unzip and run directly |
-| [`Kineviz-Desktop-0.1.7-win-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-win-arm64.zip) | ARM64 | Portable archive — unzip and run directly |
+| [`Kineviz-Desktop-Setup-0.1.8-win-x64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-Setup-0.1.8-win-x64.exe) | Intel / AMD (x64) | **Recommended** — standard installer, just double-click to install |
+| [`Kineviz-Desktop-Setup-0.1.8-win-arm64.exe`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-Setup-0.1.8-win-arm64.exe) | ARM64 | **Recommended** — standard installer for ARM-based PCs |
+| [`Kineviz-Desktop-0.1.8-win-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-win-x64.zip) | Intel / AMD (x64) | Portable archive — unzip and run directly |
+| [`Kineviz-Desktop-0.1.8-win-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-win-arm64.zip) | ARM64 | Portable archive — unzip and run directly |
 
 > Most Windows PCs use the `x64` build. Only choose the `arm64` build if your device uses an ARM processor (e.g., Snapdragon-based PCs).
 
@@ -49,10 +49,10 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 | File | Chip | Notes |
 | --- | --- | --- |
-| [`Kineviz-Desktop-0.1.7-mac-x64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-x64.dmg) | Intel | **Recommended** — disk image installer |
-| [`Kineviz-Desktop-0.1.7-mac-arm64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-arm64.dmg) | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
-| [`Kineviz-Desktop-0.1.7-mac-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-x64.zip) | Intel | Archive form |
-| [`Kineviz-Desktop-0.1.7-mac-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.7/Kineviz-Desktop-0.1.7-mac-arm64.zip) | Apple Silicon | Archive form |
+| [`Kineviz-Desktop-0.1.8-mac-x64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-mac-x64.dmg) | Intel | **Recommended** — disk image installer |
+| [`Kineviz-Desktop-0.1.8-mac-arm64.dmg`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-mac-arm64.dmg) | Apple Silicon (M1/M2/M3, etc.) | **Recommended** — disk image installer |
+| [`Kineviz-Desktop-0.1.8-mac-x64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-mac-x64.zip) | Intel | Archive form |
+| [`Kineviz-Desktop-0.1.8-mac-arm64.zip`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.1.8/Kineviz-Desktop-0.1.8-mac-arm64.zip) | Apple Silicon | Archive form |
 
 > How to check your Mac's chip: click the  menu in the top-left corner → "About This Mac", and look at the "Chip / Processor" information. Choose the `arm64` build for Apple M-series chips, or the `x64` build for Intel processors.
 
@@ -64,7 +64,7 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 ### Windows
 
-1. Double-click the downloaded `Kineviz-Desktop-Setup-0.1.7-win-x64.exe` (or the `-win-arm64.exe` build for ARM-based PCs).
+1. Double-click the downloaded `Kineviz-Desktop-Setup-0.1.8-win-x64.exe` (or the `-win-arm64.exe` build for ARM-based PCs).
 2. Follow the prompts to complete the installation (you can choose the install location and whether to create a desktop shortcut).
 3. Once installed, launch **Kineviz Desktop** from the Start menu or the desktop icon.
 
