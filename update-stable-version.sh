@@ -81,12 +81,22 @@ fi
 
 echo "已确认稳定版 / Confirmed stable release: $FOUND_TAG"
 
+# 在 GitHub Actions 中暴露版本号给后续步骤 / expose the version to later steps in GitHub Actions
+if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+  echo "version=$NUM_VERSION" >>"$GITHUB_OUTPUT"
+  echo "tag=$FOUND_TAG" >>"$GITHUB_OUTPUT"
+fi
+
 # --- 3. 更新文档 / Update the docs ---
 bash "$BUMP_SCRIPT" "$NUM_VERSION"
 
 # --- 4. 若有改动则提交 / Commit if anything changed ---
 if git diff --quiet -- README.md README.zh.md latest-version; then
   echo "文档无变化，跳过提交。 / No doc changes, skipping commit."
+  # 告知后续步骤没有发生改动 / tell later steps that nothing changed
+  if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+    echo "changed=false" >>"$GITHUB_OUTPUT"
+  fi
   exit 0
 fi
 
@@ -98,6 +108,11 @@ fi
 
 git add README.md README.zh.md latest-version
 git commit -m "docs: set stable version to $NUM_VERSION"
+
+# 告知后续步骤发生了改动 / tell later steps that something changed
+if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
+  echo "changed=true" >>"$GITHUB_OUTPUT"
+fi
 
 echo "已提交 / Committed: docs: set stable version to $NUM_VERSION"
 echo "完成。 / Done."

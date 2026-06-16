@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Update stable version and commit
+        id: update
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -29,4 +30,21 @@ jobs:
           ./update-stable-version.sh "${{ github.event.inputs.version }}"
 
       - name: Push changes
+        if: steps.update.outputs.changed == 'true'
         run: git push
+
+      - name: Announce new stable version on Slack
+        if: steps.update.outputs.changed == 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          VERSION: ${{ steps.update.outputs.version }}
+          TAG: ${{ steps.update.outputs.tag }}
+        run: |
+          if [[ -z "${SLACK_WEBHOOK_URL:-}" ]]; then
+            echo "SLACK_WEBHOOK_URL secret is not set; skipping Slack notification." >&2
+            exit 0
+          fi
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${TAG}"
+          TEXT=":rocket: *Kineviz Desktop ${VERSION}* is now the latest stable version! <${RELEASE_URL}|View the release>"
+          payload="$(jq -n --arg text "$TEXT" '{text: $text}')"
+          curl -sS -f -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
