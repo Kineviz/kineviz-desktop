@@ -36,6 +36,7 @@ jobs:
       - name: Announce new stable version on Slack
         if: steps.update.outputs.changed == 'true'
         env:
+          GH_TOKEN: ${{ github.token }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           VERSION: ${{ steps.update.outputs.version }}
           TAG: ${{ steps.update.outputs.tag }}
@@ -45,6 +46,21 @@ jobs:
             exit 0
           fi
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${TAG}"
-          TEXT=":rocket: *Kineviz Desktop ${VERSION}* is now the latest stable version! <${RELEASE_URL}|View the release>"
+
+          # 抓取 Release 说明 / fetch the release notes
+          NOTES="$(gh release view "$TAG" --repo "${{ github.repository }}" --json body --jq '.body' || true)"
+          # Slack 文本上限较保守地截断 / truncate conservatively to stay under Slack's text limits
+          MAX_LEN=2500
+          if [[ "${#NOTES}" -gt "$MAX_LEN" ]]; then
+            NOTES="${NOTES:0:$MAX_LEN}"$'\n\n…'"<${RELEASE_URL}|Read the full release notes>"
+          fi
+
+          HEADER=":rocket: *Kineviz Desktop ${VERSION}* is now the latest stable version! <${RELEASE_URL}|View the release>"
+          if [[ -n "$NOTES" ]]; then
+            TEXT="${HEADER}"$'\n\n*Release notes:*\n'"${NOTES}"
+          else
+            TEXT="$HEADER"
+          fi
+
           payload="$(jq -n --arg text "$TEXT" '{text: $text}')"
           curl -sS -f -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
