@@ -38,6 +38,12 @@
     .header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
     h1 { margin: 0 0 4px; font-size: 22px; }
     .tagline { color: var(--muted); font-size: 14px; }
+    .intro {
+      margin: 14px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
     .version {
       color: var(--muted);
       font-size: 13px;
@@ -130,10 +136,12 @@
     <div class="header">
       <div>
         <h1>Kineviz Desktop</h1>
-        <div class="tagline">GraphXR desktop edition</div>
+        <div class="tagline"></div>
       </div>
       <div class="version" id="version">Latest version: …</div>
     </div>
+
+    <p class="intro">A visual platform to collect and expand on complex connections in data, leveraging AI to reveal hidden patterns and insights.</p>
 
     <div class="detected" id="detected">Detecting your system…</div>
     <a class="btn" id="primary-btn" href="#" rel="noopener">Download</a>
