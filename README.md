@@ -23,8 +23,9 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 | Windows | Windows 10 / 11 (x64 or ARM64) |
 | macOS | macOS 11 or later (supports both Intel and Apple Silicon) |
 
-- Memory: 8 GB or more recommended (16 GB recommended for large graphs).
-- Network: An internet connection is required for the initial sign-in and for some online features.
+- Memory: 16 GB or more.
+- Storage: 30 GB or more free space.
+- Network: An internet connection is required for initial sign-in and for online features such as Kineviz Agent.
 
 ---
 
