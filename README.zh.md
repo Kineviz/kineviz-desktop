@@ -24,7 +24,7 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 | macOS | macOS 11 及以上（支持 Intel 与 Apple Silicon 芯片） |
 
 - 内存：16 GB 及以上。
-- 存储：30 GB 及以上可用空间。
+- 存储：约 1 GB 可用空间（下载约 200 MB，安装后约 600 MB）。
 - 网络：首次登录及使用 Kineviz Agent 等在线功能需要联网。
 
 ---

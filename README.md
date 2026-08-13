@@ -24,7 +24,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 | macOS | macOS 11 or later (supports both Intel and Apple Silicon) |
 
 - Memory: 16 GB or more.
-- Storage: 30 GB or more free space.
+- Storage: about 1 GB of free space (roughly 200 MB to download, ~600 MB installed).
 - Network: An internet connection is required for initial sign-in and for online features such as Kineviz Agent.
 
 ---
