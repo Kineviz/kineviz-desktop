@@ -154,7 +154,8 @@
 
     <div class="req">
       <strong>System requirements:</strong>
-      Windows 10 / 11 (x64 or ARM64), or macOS 11+ (Intel or Apple Silicon).
+      Windows 10 / 11 (x64 or ARM64), macOS 11+ (Intel or Apple Silicon),
+      or Linux (x64 or ARM64 — AppImage, or .deb on Debian / Ubuntu).
       16 GB RAM and 30 GB free storage or more.
     </div>
 
@@ -215,6 +216,8 @@
       }
 
       // ---- Build map for a given version ----
+      // Each entry is the recommended build for that OS/arch; `alt` holds the
+      // other formats we ship for it (Linux has both AppImage and .deb).
       function makeBuilds(version) {
         var base = RELEASES + "/download/v" + version + "/";
         function f(name) { return { file: name, url: base + name }; }
@@ -226,6 +229,19 @@
           mac: {
             x64:   Object.assign(f("Kineviz-Desktop-" + version + "-mac-x64.dmg"),   { label: "macOS (Intel)" }),
             arm64: Object.assign(f("Kineviz-Desktop-" + version + "-mac-arm64.dmg"), { label: "macOS (Apple Silicon)" })
+          },
+          linux: {
+            // AppImage first: it runs on any distro without root; .deb only fits
+            // Debian/Ubuntu. Note the x64 files disagree on arch naming
+            // (x86_64 for AppImage, amd64 for .deb) — that is how they ship.
+            x64: Object.assign(f("Kineviz-Desktop-" + version + "-linux-x86_64.AppImage"), {
+              label: "Linux (Intel / AMD x64) — AppImage",
+              alt: [Object.assign(f("Kineviz-Desktop-" + version + "-linux-amd64.deb"), { label: "Linux (Intel / AMD x64) — .deb" })]
+            }),
+            arm64: Object.assign(f("Kineviz-Desktop-" + version + "-linux-arm64.AppImage"), {
+              label: "Linux (ARM64) — AppImage",
+              alt: [Object.assign(f("Kineviz-Desktop-" + version + "-linux-arm64.deb"), { label: "Linux (ARM64) — .deb" })]
+            })
           }
         };
       }
@@ -234,9 +250,13 @@
       function detectOS() {
         var ua = navigator.userAgent || "";
         var plat = (navigator.platform || "").toLowerCase();
+        // Android and ChromeOS both say "Linux"/"X11" in their UA but run
+        // neither the AppImage nor the .deb, so rule them out before Linux.
+        if (/android|cros/i.test(ua)) return null;
         if (/win/i.test(ua) || plat.indexOf("win") === 0) return "windows";
         // iPadOS reports as Mac; we still treat it as mac for download purposes.
         if (/mac/i.test(ua) || plat.indexOf("mac") === 0) return "mac";
+        if (/linux|x11/i.test(ua) || plat.indexOf("linux") === 0) return "linux";
         return null;
       }
 
@@ -259,7 +279,8 @@
 
       function fallbackArch(os) {
         if (os === "mac") return isAppleSilicon() ? "arm64" : "x64";
-        // Windows without userAgentData: x64 covers the vast majority of PCs.
+        // Windows/Linux without userAgentData (e.g. Firefox): x64 covers the
+        // vast majority of desktops, and the full build list catches the rest.
         return "x64";
       }
 
@@ -285,10 +306,14 @@
 
       // ---- Render helpers ----
       function osLabel(os) {
-        return os === "windows" ? "Windows" : os === "mac" ? "macOS" : "your system";
+        return os === "windows" ? "Windows"
+          : os === "mac" ? "macOS"
+          : os === "linux" ? "Linux"
+          : "your system";
       }
-      function archLabel(arch) {
-        return arch === "arm64" ? "ARM64 / Apple Silicon" : "x64 (Intel / AMD)";
+      function archLabel(os, arch) {
+        if (arch !== "arm64") return "x64 (Intel / AMD)";
+        return os === "mac" ? "Apple Silicon" : "ARM64";
       }
 
       function renderAllLinks(builds) {
@@ -296,14 +321,18 @@
         var html = "";
         var groups = [
           { os: "windows", title: "Windows" },
-          { os: "mac", title: "macOS" }
+          { os: "mac", title: "macOS" },
+          { os: "linux", title: "Linux" }
         ];
         groups.forEach(function (g) {
           html += '<div class="group-title">' + g.title + "</div>";
           Object.keys(builds[g.os]).forEach(function (arch) {
             var b = builds[g.os][arch];
-            html += '<a href="' + b.url + '" download>' + b.label +
-              "<br><span>" + b.file + "</span></a>";
+            // The recommended build first, then its other formats (Linux .deb).
+            [b].concat(b.alt || []).forEach(function (item) {
+              html += '<a href="' + item.url + '" download>' + item.label +
+                "<br><span>" + item.file + "</span></a>";
+            });
           });
         });
         container.innerHTML = html;
@@ -339,7 +368,7 @@
             }
 
             detectedEl.innerHTML =
-              "Detected: <strong>" + osLabel(res.os) + " · " + archLabel(res.arch) + "</strong>";
+              "Detected: <strong>" + osLabel(res.os) + " · " + archLabel(res.os, res.arch) + "</strong>";
             btn.textContent = "Download for " + osLabel(res.os);
             btn.href = build.url;
             btn.setAttribute("download", ""); // hint download rather than navigate

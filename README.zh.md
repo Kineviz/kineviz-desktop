@@ -22,6 +22,7 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 | --- | --- |
 | Windows | Windows 10 / 11（x64 或 ARM64） |
 | macOS | macOS 11 及以上（支持 Intel 与 Apple Silicon 芯片） |
+| Linux | x64 或 ARM64 —— `.AppImage`（适用于大多数发行版）或 `.deb`（Debian / Ubuntu） |
 
 - 内存：16 GB 及以上。
 - 存储：30 GB 及以上可用空间。
@@ -57,7 +58,18 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 
 > 如何查看 Mac 芯片类型：点击屏幕左上角  图标 →「关于本机」，查看「芯片 / 处理器」信息。Apple M 系列选择 `arm64` 版本，Intel 处理器选择 `x64` 版本。
 
-> `latest.yml`、`latest-mac.yml`、`latest-arm64.yml` 为软件自动更新使用的配置文件，**普通用户无需下载**。
+### Linux
+
+| 文件名 | 适用芯片 | 说明 |
+| --- | --- | --- |
+| [`Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-x86_64.AppImage) | Intel / AMD（x64） | **推荐**，适用于大多数发行版，无需安装 |
+| [`Kineviz-Desktop-0.18.0-linux-arm64.AppImage`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-arm64.AppImage) | ARM64 | **推荐**，适用于大多数发行版，无需安装 |
+| [`Kineviz-Desktop-0.18.0-linux-amd64.deb`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-amd64.deb) | Intel / AMD（x64） | Debian / Ubuntu 安装包 |
+| [`Kineviz-Desktop-0.18.0-linux-arm64.deb`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-arm64.deb) | ARM64 | Debian / Ubuntu 安装包 |
+
+> Intel / AMD 的 `.deb` 文件名中写作 `amd64`，同一芯片的 AppImage 写作 `x86_64`，两者都是 x64 版本。
+
+> `latest.yml`、`latest-mac.yml`、`latest-arm64.yml`、`latest-linux.yml`、`latest-linux-arm64.yml` 为软件自动更新使用的配置文件，**普通用户无需下载**。
 
 ---
 
@@ -78,6 +90,20 @@ GraphXR 是 Kineviz 公司推出的一款无需编码、基于浏览器的图数
 3. 在「启动台」或「应用程序」中打开 **Kineviz Desktop**。
 
 > 若首次打开时提示「无法打开，因为来自身份不明的开发者」，请前往「系统设置 →隐私与安全性」，找到相关提示并点击「仍要打开」；或在「应用程序」中右键点击图标 →「打开」。
+
+### Linux
+
+**AppImage**（适用于各发行版）：
+
+1. 为下载的文件添加执行权限：`chmod +x Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`
+2. 直接运行：`./Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`
+
+**`.deb` 安装包**（Debian / Ubuntu）：
+
+1. 安装：`sudo apt install ./Kineviz-Desktop-0.18.0-linux-amd64.deb`
+2. 从应用程序菜单启动 **Kineviz Desktop**，或在终端执行 `kineviz-desktop`。
+
+> ARM64 设备请把命令中的文件名换成 `-linux-arm64` 版本。
 
 ---
 

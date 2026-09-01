@@ -22,6 +22,7 @@ GraphXR is a no-code, browser-based graph visualization and analytics tool from 
 | --- | --- |
 | Windows | Windows 10 / 11 (x64 or ARM64) |
 | macOS | macOS 11 or later (supports both Intel and Apple Silicon) |
+| Linux | x64 or ARM64 — `.AppImage` (most distributions) or `.deb` (Debian / Ubuntu) |
 
 - Memory: 16 GB or more.
 - Storage: 30 GB or more free space.
@@ -57,7 +58,18 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 
 > How to check your Mac's chip: click the  menu in the top-left corner → "About This Mac", and look at the "Chip / Processor" information. Choose the `arm64` build for Apple M-series chips, or the `x64` build for Intel processors.
 
-> `latest.yml`, `latest-mac.yml`, and `latest-arm64.yml` are configuration files used by the app's auto-update mechanism—**regular users do not need to download them**.
+### Linux
+
+| File | Chip | Notes |
+| --- | --- | --- |
+| [`Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-x86_64.AppImage) | Intel / AMD (x64) | **Recommended** — runs on most distributions, no installation needed |
+| [`Kineviz-Desktop-0.18.0-linux-arm64.AppImage`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-arm64.AppImage) | ARM64 | **Recommended** — runs on most distributions, no installation needed |
+| [`Kineviz-Desktop-0.18.0-linux-amd64.deb`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-amd64.deb) | Intel / AMD (x64) | Package for Debian / Ubuntu |
+| [`Kineviz-Desktop-0.18.0-linux-arm64.deb`](https://github.com/Kineviz/kineviz-desktop/releases/download/v0.18.0/Kineviz-Desktop-0.18.0-linux-arm64.deb) | ARM64 | Package for Debian / Ubuntu |
+
+> The `.deb` file for Intel / AMD is named `amd64` while the AppImage for the same chip is named `x86_64`—both are the same x64 build.
+
+> `latest.yml`, `latest-mac.yml`, `latest-arm64.yml`, `latest-linux.yml`, and `latest-linux-arm64.yml` are configuration files used by the app's auto-update mechanism—**regular users do not need to download them**.
 
 ---
 
@@ -78,6 +90,20 @@ Releases: <https://github.com/Kineviz/kineviz-desktop/releases>
 3. Open **Kineviz Desktop** from Launchpad or the Applications folder.
 
 > If, on first launch, you see "cannot be opened because it is from an unidentified developer", go to "System Settings → Privacy & Security", find the related prompt and click "Open Anyway"; or right-click the icon in "Applications" → "Open".
+
+### Linux
+
+**AppImage** (any distribution):
+
+1. Make the downloaded file executable: `chmod +x Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`
+2. Run it: `./Kineviz-Desktop-0.18.0-linux-x86_64.AppImage`
+
+**`.deb` package** (Debian / Ubuntu):
+
+1. Install it: `sudo apt install ./Kineviz-Desktop-0.18.0-linux-amd64.deb`
+2. Launch **Kineviz Desktop** from the application menu, or run `kineviz-desktop` in a terminal.
+
+> On the ARM64 build, use the `-linux-arm64` file names instead.
 
 ---
 

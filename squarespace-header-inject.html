@@ -61,11 +61,20 @@
     var base = RELEASES + "/download/v" + v + "/";
     function win(a) { return "Kineviz-Desktop-Setup-" + v + "-win-" + a + ".exe"; }
     function mac(a) { return "Kineviz-Desktop-" + v + "-mac-" + a + ".dmg"; }
+    function lin(s) { return "Kineviz-Desktop-" + v + "-linux-" + s; }
+    // Per arch, the recommended build comes first: urlFor() takes the first
+    // match, and AppImage runs on any distro while .deb fits Debian/Ubuntu.
+    // The x64 files disagree on arch naming (x86_64 vs amd64) — that is how
+    // they ship.
     var list = [
       { os: "windows", arch: "x64",   label: "Windows (Intel / AMD x64)", file: win("x64") },
       { os: "windows", arch: "arm64", label: "Windows (ARM64)",           file: win("arm64") },
       { os: "mac",     arch: "x64",   label: "macOS (Intel)",             file: mac("x64") },
-      { os: "mac",     arch: "arm64", label: "macOS (Apple Silicon)",     file: mac("arm64") }
+      { os: "mac",     arch: "arm64", label: "macOS (Apple Silicon)",     file: mac("arm64") },
+      { os: "linux",   arch: "x64",   label: "Linux (Intel / AMD x64) — AppImage", file: lin("x86_64.AppImage") },
+      { os: "linux",   arch: "x64",   label: "Linux (Intel / AMD x64) — .deb",     file: lin("amd64.deb") },
+      { os: "linux",   arch: "arm64", label: "Linux (ARM64) — AppImage",           file: lin("arm64.AppImage") },
+      { os: "linux",   arch: "arm64", label: "Linux (ARM64) — .deb",               file: lin("arm64.deb") }
     ];
     list.forEach(function (b) { b.url = base + b.file; });
     return list;
@@ -82,8 +91,11 @@
   function detectOS() {
     var ua = navigator.userAgent || "";
     var plat = (navigator.platform || "").toLowerCase();
+    // Android and ChromeOS also say "Linux"/"X11" but run neither Linux build.
+    if (/android|cros/i.test(ua)) return null;
     if (/win/i.test(ua) || plat.indexOf("win") === 0) return "windows";
     if (/mac/i.test(ua) || plat.indexOf("mac") === 0) return "mac";
+    if (/linux|x11/i.test(ua) || plat.indexOf("linux") === 0) return "linux";
     return null;
   }
   function isAppleSilicon() {
@@ -120,7 +132,11 @@
   // ---- Menu markup ----
   function menuHtml() {
     var builds = makeBuilds(state.version);
-    var groups = [{ os: "windows", title: "Windows" }, { os: "mac", title: "macOS" }];
+    var groups = [
+      { os: "windows", title: "Windows" },
+      { os: "mac", title: "macOS" },
+      { os: "linux", title: "Linux" }
+    ];
     var html = "";
     groups.forEach(function (g) {
       html += '<div class="kvz-group">' + g.title + "</div>";
